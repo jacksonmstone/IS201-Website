@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Solo Cup Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .cups {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .cup {
+      width: 100px;
+      height: 150px;
+      background-color: red;
+      border-radius: 0 0 50px 50px;
+      cursor: pointer;
+      position: relative;
+    }
+    .ball {
+      width: 30px;
+      height: 30px;
+      background-color: orange;
+      border-radius: 50%;
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    .result {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Guess Which Cup Has the Ball!</h1>
+  <div class="cups">
+    <div class="cup" data-index="0"><div class="ball"></div></div>
+    <div class="cup" data-index="1"><div class="ball"></div></div>
+    <div class="cup" data-index="2"><div class="ball"></div></div>
+  </div>
+  <div class="result"></div>
+  <button onclick="shuffleAndReset()">Shuffle and Guess Again</button>
+  <br><br><br><br><br><br><br><br><br><br>
+  <a href="scratch.html">
+    <button>Return to Scratch Page</button>
+  </a>
+
+  <script>
+    let ballPosition = Math.floor(Math.random() * 3);
+
+    const cups = document.querySelectorAll('.cup');
+    const resultDiv = document.querySelector('.result');
+
+    function showBall(index) {
+      cups[index].querySelector('.ball').style.display = 'block';
+    }
+
+    function hideAllBalls() {
+      cups.forEach(cup => cup.querySelector('.ball').style.display = 'none');
+    }
+
+    function shuffleAndReset() {
+      hideAllBalls();
+      ballPosition = Math.floor(Math.random() * 3);
+      resultDiv.textContent = "Pick a cup!";
+    }
+
+    cups.forEach((cup, index) => {
+      cup.addEventListener('click', () => {
+        if (index === ballPosition) {
+          resultDiv.textContent = "🎉 Correct! The ball was here!";
+        } else {
+          resultDiv.textContent = "❌ Wrong! Try again next round.";
+        }
+        showBall(ballPosition);
+      });
+    });
+
+    shuffleAndReset();
+  </script>
+</body>
+</html>
